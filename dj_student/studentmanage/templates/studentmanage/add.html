@@ -1,0 +1,87 @@
+{% extends "studentmanage/aribase.html" %}
+
+{% block body %}
+   <h3 class="text-center m-4"></h3>
+   {% if success %}
+   <div class="alert alert-success text-center" role="alert">
+       <p class="mb-0">The new student is added successfully!</p>
+       <a href="{% url 'add' %}" class="btn btn-primary mt-3">Add Another Student</a>
+       <a href="{% url 'studenthomepage' %}" class="btn btn-secondary mt-3">Go to Home Page</a>
+   </div>
+    {% else %} 
+        <div class="row justify-content-center">
+            <div class="col-6"> 
+                <div class="card text-white bg-dark mb-3" >
+                    <div class="card-header">
+                        <i class="fa-solid fa-address-card fa-lg"></i> Student Registration 
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'add' %}" method="POST">
+                          {% csrf_token %}
+                          <div class="mb-3">
+                            <label for="student_num" class="form-label">Student Number</label>
+                            <input type="number" class="form-control" id="student_num" name="student_num" min="1000000" max="9999999" required oninvalid="this.setCustomValidity('Student number only accepts 7 digits')" oninput="this.setCustomValidity('')" />
+
+                            {% if form.student_num.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.student_num.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                          </div>
+                          <div class="mb-3">
+                            <label for="f_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="f_name" name="f_name" required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="l_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="l_name" name="l_name" required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="field_of_study" class="form-label">Field of Study</label>
+                            <select class="form-control" id="field_of_study" name="field_of_study" required>
+                                <option value="">Choose Field of Study</option>
+                                <option value="BS PSYCH">BS PSYCH</option>
+                                <option value="BAF">BAF</option>
+                                <option value="BSDevCom">BSDevCom</option>
+                                <option value="BS STAT">BS STAT</option>
+                                <option value="BS MATH">BS MATH</option>
+                                <option value="BSIT">BSIT</option>
+                                <option value="BSIS">BSIS</option>
+                                <option value="BSED">BSED</option>
+                                <option value="BSEE">BSEE</option>
+                                <option value="BIT-CT">BIT-CT</option>
+                                <option value="BSCPE">BSCPE</option>
+                                <option value="BSCE">BSCE</option>
+                                <option value="BSIE">BSIE</option>
+                                <option value="MECHATRONIX">MECHATRONIX</option>
+                                <option value="BSN">BSN</option>
+                                <option value="BSBA">BSBA</option>
+                                <option value="BSHM">BSHM</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="gpa" class="form-label">GPA</label>
+                            <input type="number" class="form-control" id="gpa" name="gpa" min="1.0" max="5.0" step="0.01" required>
+                            {% if form.gpa.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in form.gpa.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                          </div>
+                          <button type="submit" class="btn btn-primary">ADD</button>
+                          <a href="{% url 'studenthomepage' %}" class="btn btn-secondary">CANCEL</a>
+                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+   {% endif %}
+{% endblock %}
